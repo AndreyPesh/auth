@@ -1,7 +1,7 @@
 export const getArtist = async (username: string) => {
   const res = await fetch(
     `https://jsonplaceholder.typicode.com/users/${username}`,
-    { cache: 'no-cache' }
+    { next: { revalidate: 20 } }
   );
   return res.json();
 };

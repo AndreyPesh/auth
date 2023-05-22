@@ -8,18 +8,18 @@ interface ParamsAlbumPage {
 }
 
 const Album = async ({ params }: ParamsAlbumPage) => {
-  const userData = getArtist(params.username);
-  const albumData = getArtistAlbums(params.username);
+  // const userData = getArtist(params.username);
+  // const albumData = getArtistAlbums(params.username);
 
-  const user = await userData;
+  // const user = await userData;
 
   return (
     <div>
-      <h1 className="text-red-500">User {user.id}</h1>
+      {/* <h1 className="text-red-500">User {user.id}</h1>
       <Suspense fallback={<Loading />}>
         {/* @ts-expect-error Async Server Component */}
-        <Albums promise={albumData} />
-      </Suspense>
+        {/* <Albums promise={albumData} />
+      </Suspense> */}
     </div>
   );
 };

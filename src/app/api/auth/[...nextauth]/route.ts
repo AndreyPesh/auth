@@ -14,27 +14,28 @@ const handler = NextAuth({
     async session(
       params: { session: Session }
     ) {
-      const { session } = params;
-      const sessionUser = await User.findOne({ email: session?.user?.email });
+      console.log('Called session');
+      
+      // const { session } = params;
+      // const sessionUser = await User.findOne({ email: session?.user?.email });
 
       //@ts-ignore
-      session!.user!.id = sessionUser._id.toString();
-
+      // session!.user!.id = sessionUser._id.toString();
       return session;
     },
     //@ts-ignore
     async signIn({ profile }: { profile: { email: string; name: string } }) {
       try {
-        await connectDB();
+        // await connectDB();
 
-        const isUserExist = await User.findOne({ email: profile.email });
+        // const isUserExist = await User.findOne({ email: profile.email });
 
-        if (!isUserExist) {
-          await User.create({
-            email: profile.email,
-            username: profile.name,
-          });
-        }
+        // if (!isUserExist) {
+        //   await User.create({
+        //     email: profile.email,
+        //     username: profile.name,
+        //   });
+        // }
 
         return true;
       } catch (error) {

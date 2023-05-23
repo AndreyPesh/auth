@@ -9,7 +9,9 @@ type ProvidersType = Awaited<ReturnType<typeof getProviders>>;
 
 const Nav = () => {
   // const isUserLoggedIn = true;
+
   const { data: session } = useSession()
+
   const [providers, setProviders] = useState<ProvidersType>(null);
   const [toggleDropDown, setToggleDropDown] = useState(false);
 
@@ -20,6 +22,11 @@ const Nav = () => {
     };
     setProvidersToState();
   }, []);
+
+  useEffect(() => {
+    console.log('session ',session, 'providers: ', providers);
+    
+  }, [session, providers])
 
   return (
     <nav className='flex-between w-full mb-16 pt-3'>

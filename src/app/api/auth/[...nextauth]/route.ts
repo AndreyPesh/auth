@@ -16,7 +16,7 @@ const handler = NextAuth({
     ) {
       console.log('Called session');
       
-      // const { session } = params;
+      const { session } = params;
       // const sessionUser = await User.findOne({ email: session?.user?.email });
 
       //@ts-ignore

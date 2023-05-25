@@ -1,7 +1,7 @@
 import './globals.css';
 import Navbar from './components/navbar/Navbar';
 import { Nunito } from 'next/font/google';
-import Modal from './components/modal/Modal';
+import RegisterModal from './components/modal/RegisterModal';
 // import ClientOnly from './components/ClientOnly';
 
 export const metadata = {
@@ -20,8 +20,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={font.className}>
         {/* <ClientOnly> */}
-          <Modal actionLabel='Submit' isOpen={true} />
-          <Navbar />
+        <RegisterModal />
+        <Navbar />
         {/* </ClientOnly> */}
         {children}
       </body>

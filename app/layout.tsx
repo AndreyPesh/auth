@@ -3,6 +3,7 @@ import Navbar from './components/navbar/Navbar';
 import { Nunito } from 'next/font/google';
 import RegisterModal from './components/modal/RegisterModal';
 import ToasterProvider from './providers/ToasterProvider';
+import LoginModal from './components/modal/LoginModal';
 // import ClientOnly from './components/ClientOnly';
 
 export const metadata = {
@@ -23,6 +24,7 @@ export default function RootLayout({
         {/* <ClientOnly> */}
         <ToasterProvider />
         <RegisterModal />
+        <LoginModal />
         <Navbar />
         {/* </ClientOnly> */}
         {children}

@@ -4,6 +4,7 @@ import { Nunito } from 'next/font/google';
 import RegisterModal from './components/modal/RegisterModal';
 import ToasterProvider from './providers/ToasterProvider';
 import LoginModal from './components/modal/LoginModal';
+import RentModal from './components/modal/RentModal';
 import getCurrentUser from './actions/getCurrentUser';
 // import ClientOnly from './components/ClientOnly';
 
@@ -27,6 +28,7 @@ export default async function RootLayout({
         <ToasterProvider />
         <RegisterModal />
         <LoginModal />
+        <RentModal />
         <Navbar currentUser={currentUser} />
         {/* </ClientOnly> */}
         {children}

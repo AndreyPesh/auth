@@ -28,7 +28,11 @@ const Map: FC<MapProps> = ({ center }) => {
       scrollWheelZoom={false}
       className="h-[25vh] rounded-lg"
     >
-      
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      {center && <Marker position={center as L.LatLngExpression} />}
     </MapContainer>
   );
 };

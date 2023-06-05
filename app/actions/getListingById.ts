@@ -30,6 +30,7 @@ export default async function getListingById(params: IParams) {
       },
     };
   } catch (error) {
-    throw new Error(error as string);
+    // throw new Error(error as string);
+    return null;
   }
 }

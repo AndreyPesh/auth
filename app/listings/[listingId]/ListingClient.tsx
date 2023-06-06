@@ -11,8 +11,16 @@ import ListingHead from '@/app/components/listings/ListingHead';
 import ListingInfo from '@/app/components/listings/ListingInfo';
 import useLoginModal from '@/app/hooks/useLoginModal';
 import { useRouter } from 'next/navigation';
+import ListingReservation from '@/app/components/listings/ListingReservation';
+import { Range } from 'react-date-range';
 
-const initialDateRange = {
+// export interface Range {
+//   startDate: Date;
+//   endDate: Date;
+//   key: string;
+// }
+
+const initialDateRange: Range = {
   startDate: new Date(),
   endDate: new Date(),
   key: 'selection',
@@ -79,7 +87,10 @@ const ListingClient: FC<ListingClientProps> = ({
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
-      const dayCount = differenceInCalendarDays(dateRange.endDate, dateRange.startDate);
+      const dayCount = differenceInCalendarDays(
+        dateRange.endDate,
+        dateRange.startDate
+      );
 
       if (dayCount && listing.price) {
         setTotalPrice(dayCount * listing.price);
@@ -114,6 +125,17 @@ const ListingClient: FC<ListingClientProps> = ({
               bathroomCount={listing.bathroomCount}
               locationValue={listing.locationValue}
             />
+            <div className="order-first mb-10 md:order-last md:col-span-3">
+              <ListingReservation
+                price={listing.price}
+                totalPrice={totalPrice}
+                onChangeDate={(value: Range) => setDateRange(value)}
+                dateRange={dateRange}
+                onSubmit={onCreateReservation}
+                disabled={isLoading}
+                disabledDates={disabledDates}
+              />
+            </div>
           </div>
         </div>
       </div>

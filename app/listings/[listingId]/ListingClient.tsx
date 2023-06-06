@@ -1,11 +1,22 @@
 'use client';
-import { FC, useMemo } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
+import axios from 'axios';
+import { eachDayOfInterval } from 'date-fns';
+import { toast } from 'react-hot-toast';
 import { categories } from '@/app/components/navbar/Categories';
 import { SafeListing, SafeUser } from '@/app/types';
 import { Reservation } from '@prisma/client';
 import Container from '@/app/components/Container';
 import ListingHead from '@/app/components/listings/ListingHead';
 import ListingInfo from '@/app/components/listings/ListingInfo';
+import useLoginModal from '@/app/hooks/useLoginModal';
+import { useRouter } from 'next/navigation';
+
+const initialDateRange = {
+  startDate: new Date(),
+  endDate: new Date(),
+  key: 'selection',
+};
 
 interface ListingClientProps {
   listing: SafeListing & { user: SafeUser };
@@ -13,7 +24,53 @@ interface ListingClientProps {
   reservations?: Reservation[];
 }
 
-const ListingClient: FC<ListingClientProps> = ({ listing, currentUser }) => {
+const ListingClient: FC<ListingClientProps> = ({
+  listing,
+  reservations = [],
+  currentUser,
+}) => {
+  const loginModal = useLoginModal();
+  const router = useRouter();
+
+  const disabledDates = useMemo(() => {
+    let dates: Date[] = [];
+
+    reservations.forEach((reservation) => {
+      const range = eachDayOfInterval({
+        start: new Date(reservation.startDate),
+        end: new Date(reservation.endDate),
+      });
+      dates = [...dates, ...range];
+    });
+
+    return dates;
+  }, [reservations]);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(listing.price);
+  const [dateRange, setDateRange] = useState(initialDateRange);
+
+  const onCreateReservation = useCallback(() => {
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+
+    setIsLoading(true);
+    axios
+      .post('/api/reservation', {
+        totalPrice,
+        startDate: dateRange.startDate,
+        endDate: dateRange.endDate,
+        listingId: listing.id,
+      })
+      .then(() => {
+        toast.success('Listing reserved');
+        setDateRange(initialDateRange);
+
+        router.refresh();
+      });
+  }, []);
+
   const category = useMemo(() => {
     return categories.find((item) => item.label === listing.category);
   }, [listing.category]);

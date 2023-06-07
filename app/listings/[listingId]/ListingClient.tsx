@@ -4,8 +4,7 @@ import axios from 'axios';
 import { differenceInCalendarDays, eachDayOfInterval } from 'date-fns';
 import { toast } from 'react-hot-toast';
 import { categories } from '@/app/components/navbar/Categories';
-import { SafeListing, SafeUser } from '@/app/types';
-import { Reservation } from '@prisma/client';
+import { SafeListing, SafeReservation, SafeUser } from '@/app/types';
 import Container from '@/app/components/Container';
 import ListingHead from '@/app/components/listings/ListingHead';
 import ListingInfo from '@/app/components/listings/ListingInfo';
@@ -14,13 +13,7 @@ import { useRouter } from 'next/navigation';
 import ListingReservation from '@/app/components/listings/ListingReservation';
 import { Range } from 'react-date-range';
 
-// export interface Range {
-//   startDate: Date;
-//   endDate: Date;
-//   key: string;
-// }
-
-const initialDateRange: Range = {
+const initialDateRange = {
   startDate: new Date(),
   endDate: new Date(),
   key: 'selection',
@@ -29,7 +22,7 @@ const initialDateRange: Range = {
 interface ListingClientProps {
   listing: SafeListing & { user: SafeUser };
   currentUser?: SafeUser | null;
-  reservations?: Reservation[];
+  reservations?: SafeReservation[];
 }
 
 const ListingClient: FC<ListingClientProps> = ({
@@ -56,7 +49,7 @@ const ListingClient: FC<ListingClientProps> = ({
 
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
-  const [dateRange, setDateRange] = useState(initialDateRange);
+  const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
   const onCreateReservation = useCallback(() => {
     if (!currentUser) {
@@ -75,7 +68,7 @@ const ListingClient: FC<ListingClientProps> = ({
         toast.success('Listing reserved');
         setDateRange(initialDateRange);
 
-        router.refresh();
+        router.push('/trips');
       })
       .catch(() => {
         toast.error('Something went wrong!');

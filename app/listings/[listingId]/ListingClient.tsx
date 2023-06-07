@@ -20,7 +20,7 @@ import { Range } from 'react-date-range';
 //   key: string;
 // }
 
-const initialDateRange: Range = {
+const initialDateRange = {
   startDate: new Date(),
   endDate: new Date(),
   key: 'selection',
@@ -56,7 +56,7 @@ const ListingClient: FC<ListingClientProps> = ({
 
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
-  const [dateRange, setDateRange] = useState(initialDateRange);
+  const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
   const onCreateReservation = useCallback(() => {
     if (!currentUser) {

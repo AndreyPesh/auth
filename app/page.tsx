@@ -18,7 +18,6 @@ export default async function Home({ searchParams }: HomeProps) {
       <EmptyState showReset />
     );
   }
-
   return (
     //ClientOnly
     <Container>
